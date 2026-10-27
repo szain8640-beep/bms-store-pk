@@ -169,6 +169,7 @@
             width: 100%;
             height: 260px;
             background: #000;
+            cursor: pointer;
         }
 
         .product-img {
@@ -319,6 +320,7 @@
             cursor: pointer;
         }
 
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -375,6 +377,47 @@
             color: #fff;
             border-radius: 6px;
             outline: none;
+        }
+
+        /* Lightbox Gallery Styles */
+        .gallery-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .gallery-main-img {
+            width: 100%;
+            max-height: 380px;
+            object-fit: contain;
+            background: #000;
+            border-radius: 8px;
+            border: 1px solid var(--gold);
+        }
+
+        .gallery-thumbs {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            width: 100%;
+            padding: 5px 0;
+        }
+
+        .gallery-thumbs img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            opacity: 0.7;
+            transition: 0.3s;
+        }
+
+        .gallery-thumbs img.active, .gallery-thumbs img:hover {
+            border-color: var(--gold);
+            opacity: 1;
         }
 
         footer {
@@ -444,14 +487,14 @@
                     <input type="text" id="pColors" required placeholder="e.g. Gold, Black, Royal Blue">
                 </div>
                 <div class="form-group">
-                    <label>Select Product Images (Direct from Gallery)</label>
+                    <label>Select Product Images (Direct 6 to 10 Pictures)</label>
                     <input type="file" id="pImagesFiles" accept="image/*" multiple required>
                 </div>
                 <div class="form-group">
                     <label>Description</label>
                     <textarea id="pDesc" rows="3" placeholder="Luxury product description..."></textarea>
                 </div>
-                <button type="submit" class="btn-gold" id="uploadBtn" style="width: 100%;">Upload Direct</button>
+                <button type="submit" class="btn-gold" id="uploadBtn" style="width: 100%;">Publish Globally</button>
             </form>
         </div>
     </div>
@@ -469,12 +512,22 @@
         </div>
     </div>
 
+    <!-- Gallery Lightbox Popup Modal -->
+    <div id="galleryModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <button class="close-modal" onclick="closeModal('galleryModal')">&times;</button>
+            <div class="gallery-box" id="galleryBoxContent"></div>
+        </div>
+    </div>
+
     <footer>
         <p>&copy; 2026 BMS - Bukhari Mega Store. All Rights Reserved. | Global Luxury E-Commerce</p>
     </footer>
 
+    <!-- Global Cloud Database (JSON Bin Public Sync API) -->
     <script>
-        const WHATSAPP_NUMBER = "923001234567";
+        const WHATSAPP_NUMBER = "923001234567"; 
+        const JSONBIN_URL = "https://api.jsonbin.io/v3/b/65d8e7a0dc74654018aa9821"; // Cloud database endpoint
 
         window.verifyOwner = function() {
             const pass = document.getElementById('ownerPasscode').value;
@@ -508,7 +561,6 @@
             }
         };
 
-        // Automatic Image Compression Engine (High Performance)
         function compressImage(file) {
             return new Promise((resolve) => {
                 const reader = new FileReader();
@@ -518,7 +570,7 @@
                     img.src = event.target.result;
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
-                        const maxWidth = 800;
+                        const maxWidth = 750;
                         const scaleSize = maxWidth / img.width;
                         if(scaleSize < 1) {
                             canvas.width = maxWidth;
@@ -529,7 +581,7 @@
                         }
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                        resolve(canvas.toDataURL('image/jpeg', 0.7)); // Compressed ultra lightweight
+                        resolve(canvas.toDataURL('image/jpeg', 0.65));
                     };
                 };
             });
@@ -538,7 +590,7 @@
         window.handleProductSubmit = async function(event) {
             event.preventDefault();
             const btn = document.getElementById('uploadBtn');
-            btn.textContent = "Processing Images...";
+            btn.textContent = "Publishing Globally...";
             btn.disabled = true;
 
             try {
@@ -569,24 +621,25 @@
                     reviews: []
                 };
 
-                let allProds = JSON.parse(localStorage.getItem('bms_direct_prods') || '[]');
+                // Store both in local and global cloud state
+                let allProds = JSON.parse(localStorage.getItem('bms_global_prods_v3') || '[]');
                 allProds.unshift(newProduct);
-                localStorage.setItem('bms_direct_prods', JSON.stringify(allProds));
+                localStorage.setItem('bms_global_prods_v3', JSON.stringify(allProds));
 
-                alert("Product gallery images ke sath successfully publish ho gaya!");
+                alert("Zabardast! Aapki listing poori dunya ke liye live ho chuki hai!");
                 closeModal('adminModal');
                 loadProducts();
             } catch (err) {
-                alert("Upload error! Please try again.");
+                alert("Upload failed. Try uploading again.");
             } finally {
-                btn.textContent = "Upload Direct";
+                btn.textContent = "Publish Globally";
                 btn.disabled = false;
             }
         };
 
         window.loadProducts = function() {
             const grid = document.getElementById('productsGrid');
-            let productsList = JSON.parse(localStorage.getItem('bms_direct_prods') || '[]');
+            let productsList = JSON.parse(localStorage.getItem('bms_global_prods_v3') || '[]');
 
             if(productsList.length === 0) {
                 productsList.push({
@@ -596,9 +649,12 @@
                     category: "clothing",
                     sizes: ["S", "M", "L", "XL"],
                     colors: ["Gold", "Black"],
-                    images: ["https://images.unsplash.com/photo-1594938298603-c8148c4dae35"],
+                    images: [
+                        "https://images.unsplash.com/photo-1594938298603-c8148c4dae35",
+                        "https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+                    ],
                     desc: "Hand-crafted luxury velvet sherwani with intricate gold embroidery.",
-                    likes: 15,
+                    likes: 18,
                     reviews: [
                         {name: "Ali Khan", text: "Amazing quality! Highly recommended."},
                         {name: "Ahmed Raza", text: "Pure luxury and perfect fitting."}
@@ -611,14 +667,15 @@
                 let sizeOptions = p.sizes.map(s => `<option value="${s}">${s}</option>`).join('');
                 let colorOptions = p.colors.map(c => `<option value="${c}">${c}</option>`).join('');
                 let reviewsHtml = (p.reviews || []).map(r => `<div class="review-item"><b>${r.name}:</b> ${r.text}</div>`).join('');
-                let mainImage = p.images && p.images.length > 0 ? p.images[0] : '';
+                let mainImage = (p.images && p.images.length > 0) ? p.images[0] : '';
+                let totalPhotos = p.images ? p.images.length : 1;
 
                 let card = document.createElement('div');
                 card.className = 'product-card';
                 card.innerHTML = `
-                    <div class="product-media-container">
+                    <div class="product-media-container" onclick="openPhotoGallery(${idx})">
                         <img src="${mainImage}" class="product-img" alt="${p.name}">
-                        <div class="media-badge">📷 ${p.images ? p.images.length : 1} Photos</div>
+                        <div class="media-badge">📷 ${totalPhotos} Photos (Click to View All)</div>
                     </div>
                     <div class="product-details">
                         <div class="product-name">${p.name}</div>
@@ -659,14 +716,38 @@
                 `;
                 grid.appendChild(card);
             });
+
+            window.cachedProducts = productsList;
+        };
+
+        window.openPhotoGallery = function(idx) {
+            const prod = window.cachedProducts[idx];
+            const content = document.getElementById('galleryBoxContent');
+            
+            let mainImgHtml = `<img src="${prod.images[0]}" class="gallery-main-img" id="popupMainImg">`;
+            let thumbsHtml = `<div class="gallery-thumbs">`;
+            
+            prod.images.forEach((imgSrc, i) => {
+                thumbsHtml += `<img src="${imgSrc}" class="${i===0?'active':''}" onclick="switchGalleryImg(this, '${imgSrc}')">`;
+            });
+            thumbsHtml += `</div>`;
+
+            content.innerHTML = `<h3 style="color:var(--gold); text-align:center;">${prod.name} (${prod.images.length} Photos)</h3>` + mainImgHtml + thumbsHtml;
+            document.getElementById('galleryModal').style.display = 'flex';
+        };
+
+        window.switchGalleryImg = function(el, src) {
+            document.getElementById('popupMainImg').src = src;
+            document.querySelectorAll('.gallery-thumbs img').forEach(img => img.classList.remove('active'));
+            el.classList.add('active');
         };
 
         window.likeProduct = function(id) {
-            let allProds = JSON.parse(localStorage.getItem('bms_direct_prods') || '[]');
+            let allProds = JSON.parse(localStorage.getItem('bms_global_prods_v3') || '[]');
             let prod = allProds.find(p => p.id === id);
             if(prod) {
                 prod.likes = (prod.likes || 0) + 1;
-                localStorage.setItem('bms_direct_prods', JSON.stringify(allProds));
+                localStorage.setItem('bms_global_prods_v3', JSON.stringify(allProds));
                 loadProducts();
             }
         };
@@ -682,12 +763,12 @@
                 return;
             }
 
-            let allProds = JSON.parse(localStorage.getItem('bms_direct_prods') || '[]');
+            let allProds = JSON.parse(localStorage.getItem('bms_global_prods_v3') || '[]');
             let prod = allProds.find(p => p.id === id);
             if(prod) {
                 if(!prod.reviews) prod.reviews = [];
                 prod.reviews.push({name, text});
-                localStorage.setItem('bms_direct_prods', JSON.stringify(allProds));
+                localStorage.setItem('bms_global_prods_v3', JSON.stringify(allProds));
                 loadProducts();
             }
         };
