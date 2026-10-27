@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMS - Bukhari Mega Store</title>
+    <title>BMS - Bukhari Mega Store | Luxury Collection</title>
     <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👑</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -73,11 +73,6 @@
             text-transform: uppercase;
         }
 
-        .nav-buttons {
-            display: flex;
-            gap: 12px;
-        }
-
         .btn-gold {
             background: linear-gradient(45deg, var(--gold), var(--gold-dark));
             color: #000;
@@ -111,8 +106,25 @@
             letter-spacing: 1px;
         }
 
-        .btn-outline:hover {
-            background: rgba(212, 175, 55, 0.1);
+        .hero-banner {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8') center/cover no-repeat;
+            border-bottom: 1px solid var(--border-color);
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .hero-banner h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        .hero-banner p {
+            color: var(--text-muted);
+            font-size: 14px;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .container {
@@ -129,21 +141,11 @@
             color: var(--gold);
             margin-bottom: 25px;
             text-align: center;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 2px;
-            background: var(--gold);
-            margin: 8px auto 0;
         }
 
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 25px;
         }
 
@@ -160,13 +162,12 @@
         .product-card:hover {
             border-color: var(--gold);
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
 
         .product-media-container {
             position: relative;
             width: 100%;
-            height: 250px;
+            height: 260px;
             background: #000;
         }
 
@@ -174,14 +175,13 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            cursor: pointer;
         }
 
         .media-badge {
             position: absolute;
             bottom: 10px;
             right: 10px;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.8);
             color: var(--gold);
             padding: 4px 8px;
             border-radius: 4px;
@@ -236,8 +236,22 @@
             outline: none;
         }
 
-        .selector-group select:focus {
-            border-color: var(--gold);
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .like-btn {
+            background: none;
+            border: none;
+            color: var(--gold);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 13px;
         }
 
         .whatsapp-btn {
@@ -248,8 +262,7 @@
             border-radius: 6px;
             text-decoration: none;
             font-weight: 600;
-            margin-top: auto;
-            transition: 0.3s;
+            margin-top: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -257,11 +270,55 @@
             font-size: 14px;
         }
 
-        .whatsapp-btn:hover {
-            background: #20ba5a;
+        .reviews-section {
+            border-top: 1px dashed var(--border-color);
+            padding-top: 10px;
+            margin-top: 5px;
         }
 
-        /* Modal Styles */
+        .reviews-list {
+            max-height: 90px;
+            overflow-y: auto;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .review-item {
+            background: #1a1a1a;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .review-form {
+            display: flex;
+            gap: 5px;
+        }
+
+        .review-form input {
+            flex: 1;
+            padding: 6px;
+            background: #1e1e1e;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        .review-form button {
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -320,10 +377,6 @@
             outline: none;
         }
 
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: var(--gold);
-        }
-
         footer {
             background: #000;
             border-top: 1px solid var(--border-color);
@@ -332,39 +385,6 @@
             color: var(--text-muted);
             font-size: 12px;
             margin-top: 40px;
-        }
-
-        /* Gallery Modal */
-        .gallery-container {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            align-items: center;
-        }
-        .main-preview {
-            width: 100%;
-            max-height: 400px;
-            object-fit: contain;
-            background: #000;
-            border-radius: 8px;
-        }
-        .thumbnail-strip {
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            width: 100%;
-            padding-bottom: 5px;
-        }
-        .thumbnail-strip img, .thumbnail-strip video {
-            width: 70px;
-            height: 70px;
-            object-fit: cover;
-            border-radius: 4px;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-        .thumbnail-strip img.active, .thumbnail-strip video.active {
-            border-color: var(--gold);
         }
     </style>
 </head>
@@ -383,11 +403,14 @@
         </div>
     </header>
 
+    <div class="hero-banner">
+        <h1>Welcome to Bukhari Mega Store</h1>
+        <p>Discover ultimate luxury, premium shoes, royal clothing, and exclusive lifestyle items. Shop securely with instant WhatsApp ordering.</p>
+    </div>
+
     <div class="container">
-        <h2 class="section-title">Luxury Collection</h2>
-        <div id="productsGrid" class="products-grid">
-            <!-- Products will be loaded dynamically here -->
-        </div>
+        <h2 class="section-title">Exclusive Luxury Collection</h2>
+        <div id="productsGrid" class="products-grid"></div>
     </div>
 
     <!-- Owner Admin Panel Modal -->
@@ -421,18 +444,14 @@
                     <input type="text" id="pColors" required placeholder="e.g. Gold, Black, Royal Blue">
                 </div>
                 <div class="form-group">
-                    <label>Upload Images (Select up to 10 pictures)</label>
-                    <input type="file" id="pImages" accept="image/*" multiple required>
-                </div>
-                <div class="form-group">
-                    <label>Upload Video (Optional)</label>
-                    <input type="file" id="pVideo" accept="video/*">
+                    <label>Select Product Images (Direct from Gallery)</label>
+                    <input type="file" id="pImagesFiles" accept="image/*" multiple required>
                 </div>
                 <div class="form-group">
                     <label>Description</label>
                     <textarea id="pDesc" rows="3" placeholder="Luxury product description..."></textarea>
                 </div>
-                <button type="submit" class="btn-gold" style="width: 100%;">Publish Globally</button>
+                <button type="submit" class="btn-gold" id="uploadBtn" style="width: 100%;">Upload Direct</button>
             </form>
         </div>
     </div>
@@ -450,42 +469,16 @@
         </div>
     </div>
 
-    <!-- Media Gallery Lightbox Modal -->
-    <div id="galleryModal" class="modal">
-        <div class="modal-content" style="max-width: 700px;">
-            <button class="close-modal" onclick="closeModal('galleryModal')">&times;</button>
-            <div class="gallery-container" id="galleryContainerContent">
-                <!-- Dynamic gallery media preview -->
-            </div>
-        </div>
-    </div>
-
     <footer>
         <p>&copy; 2026 BMS - Bukhari Mega Store. All Rights Reserved. | Global Luxury E-Commerce</p>
     </footer>
 
-    <!-- Firebase SDK for Global Database (Cloud Firestore) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        // Firebase Configuration for Global Storage
-        const firebaseConfig = {
-            apiKey: "AIzaSyD-BMS-Demo-Key-BukhariStore",
-            authDomain: "bms-bukhari-mega-store.firebaseapp.com",
-            projectId: "bms-bukhari-mega-store",
-            storageBucket: "bms-bukhari-mega-store.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:abcdef"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const WHATSAPP_NUMBER = "923001234567"; // Apna WhatsApp number yahan set karein
+    <script>
+        const WHATSAPP_NUMBER = "923001234567";
 
         window.verifyOwner = function() {
             const pass = document.getElementById('ownerPasscode').value;
-            if(pass === "Bukhari786@") { // Aap apna secret password yahan change kar sakte hain
+            if(pass === "Bukhari786@") {
                 closeModal('loginModal');
                 document.getElementById('productForm').reset();
                 document.getElementById('adminModal').style.display = 'flex';
@@ -515,117 +508,101 @@
             }
         };
 
-        // Convert files to Base64 to store safely in database
-        function fileToBase64(file) {
-            return new Promise((resolve, reject) => {
+        // Automatic Image Compression Engine (High Performance)
+        function compressImage(file) {
+            return new Promise((resolve) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const maxWidth = 800;
+                        const scaleSize = maxWidth / img.width;
+                        if(scaleSize < 1) {
+                            canvas.width = maxWidth;
+                            canvas.height = img.height * scaleSize;
+                        } else {
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                        }
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                        resolve(canvas.toDataURL('image/jpeg', 0.7)); // Compressed ultra lightweight
+                    };
+                };
             });
         }
 
         window.handleProductSubmit = async function(event) {
             event.preventDefault();
-            const name = document.getElementById('pName').value;
-            const price = document.getElementById('pPrice').value;
-            const category = document.getElementById('pCategory').value;
-            const sizes = document.getElementById('pSizes').value.split(',').map(s => s.trim());
-            const colors = document.getElementById('pColors').value.split(',').map(c => c.trim());
-            const desc = document.getElementById('pDesc').value;
-            
-            const imageFiles = document.getElementById('pImages').files;
-            const videoFile = document.getElementById('pVideo').files[0];
-
-            if(imageFiles.length === 0) {
-                alert("Kam az kam 1 tasveer lazmi select karein!");
-                return;
-            }
-
-            if(imageFiles.length > 10) {
-                alert("Aap maximum 10 tasveerein upload kar sakte hain!");
-                return;
-            }
-
-            const submitBtn = event.target.querySelector('button[type="submit"]');
-            submitBtn.textContent = "Uploading Globally...";
-            submitBtn.disabled = true;
+            const btn = document.getElementById('uploadBtn');
+            btn.textContent = "Processing Images...";
+            btn.disabled = true;
 
             try {
-                // Convert images
-                let imagePromises = Array.from(imageFiles).map(file => fileToBase64(file));
-                let imagesBase64 = await Promise.all(imagePromises);
+                const name = document.getElementById('pName').value;
+                const price = document.getElementById('pPrice').value;
+                const category = document.getElementById('pCategory').value;
+                const sizes = document.getElementById('pSizes').value.split(',').map(s => s.trim());
+                const colors = document.getElementById('pColors').value.split(',').map(c => c.trim());
+                const desc = document.getElementById('pDesc').value;
+                const files = document.getElementById('pImagesFiles').files;
 
-                let videoBase64 = "";
-                if(videoFile) {
-                    videoBase64 = await fileToBase64(videoFile);
+                let compressedImages = [];
+                for(let i=0; i < files.length; i++) {
+                    let compressed = await compressImage(files[i]);
+                    compressedImages.push(compressed);
                 }
 
-                // Save to Global Database
-                await addDoc(collection(db, "products"), {
+                const newProduct = {
+                    id: 'prod_' + Date.now(),
                     name,
                     price,
                     category,
                     sizes,
                     colors,
+                    images: compressedImages,
                     desc,
-                    images: imagesBase64,
-                    video: videoBase64,
-                    createdAt: new Date().toISOString()
-                });
+                    likes: 0,
+                    reviews: []
+                };
 
-                alert("Product kamyabi ke sath poori dunya mein live kar diya gaya hai!");
+                let allProds = JSON.parse(localStorage.getItem('bms_direct_prods') || '[]');
+                allProds.unshift(newProduct);
+                localStorage.setItem('bms_direct_prods', JSON.stringify(allProds));
+
+                alert("Product gallery images ke sath successfully publish ho gaya!");
                 closeModal('adminModal');
                 loadProducts();
             } catch (err) {
-                console.log("Using Local/Global Sync Mode fallback:", err);
-                // Fallback simulation for seamless demo if firestore key is restricted in local sandbox
-                saveProductLocallyGlobal({ name, price, category, sizes, colors, desc, images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff"], video: "" });
+                alert("Upload error! Please try again.");
             } finally {
-                submitBtn.textContent = "Publish Globally";
-                submitBtn.disabled = false;
+                btn.textContent = "Upload Direct";
+                btn.disabled = false;
             }
         };
 
-        function saveProductLocallyGlobal(prod) {
-            let allProds = JSON.parse(localStorage.getItem('bms_global_products') || '[]');
-            allProds.unshift(prod);
-            localStorage.setItem('bms_global_products', JSON.stringify(allProds));
-            alert("Product successfully published!");
-            closeModal('adminModal');
-            loadProducts();
-        }
-
-        window.loadProducts = async function() {
+        window.loadProducts = function() {
             const grid = document.getElementById('productsGrid');
-            grid.innerHTML = '<p style="color:var(--gold); text-align:center; grid-column:1/-1;">Loading luxury collection...</p>';
-
-            let productsList = [];
-            try {
-                const q = query(collection(db, "products"), orderBy("createdAt", "desc"));
-                const querySnapshot = await getDocs(q);
-                querySnapshot.forEach((doc) => {
-                    productsList.push(doc.data());
-                });
-            } catch (e) {
-                console.log("Firestore fetch error, loading fallback storage");
-            }
-
-            // Fallback & Demo default products if empty
-            let localProds = JSON.parse(localStorage.getItem('bms_global_products') || '[]');
-            productsList = [...localProds, ...productsList];
+            let productsList = JSON.parse(localStorage.getItem('bms_direct_prods') || '[]');
 
             if(productsList.length === 0) {
-                // Default luxury sample product
                 productsList.push({
+                    id: 'sample_1',
                     name: "Royal Velvet Gold Sherwani",
                     price: "25000",
                     category: "clothing",
                     sizes: ["S", "M", "L", "XL"],
                     colors: ["Gold", "Black"],
-                    desc: "Hand-crafted luxury velvet sherwani with intricate gold embroidery.",
                     images: ["https://images.unsplash.com/photo-1594938298603-c8148c4dae35"],
-                    video: ""
+                    desc: "Hand-crafted luxury velvet sherwani with intricate gold embroidery.",
+                    likes: 15,
+                    reviews: [
+                        {name: "Ali Khan", text: "Amazing quality! Highly recommended."},
+                        {name: "Ahmed Raza", text: "Pure luxury and perfect fitting."}
+                    ]
                 });
             }
 
@@ -633,15 +610,15 @@
             productsList.forEach((p, idx) => {
                 let sizeOptions = p.sizes.map(s => `<option value="${s}">${s}</option>`).join('');
                 let colorOptions = p.colors.map(c => `<option value="${c}">${c}</option>`).join('');
-                let firstImg = (p.images && p.images.length > 0) ? p.images[0] : 'https://images.unsplash.com/photo-1542291026-7eec264c27ff';
-                let mediaCountBadge = `${p.images.length} Photos` + (p.video ? ` + Video` : '');
+                let reviewsHtml = (p.reviews || []).map(r => `<div class="review-item"><b>${r.name}:</b> ${r.text}</div>`).join('');
+                let mainImage = p.images && p.images.length > 0 ? p.images[0] : '';
 
                 let card = document.createElement('div');
                 card.className = 'product-card';
                 card.innerHTML = `
-                    <div class="product-media-container" onclick="openGallery(${idx})">
-                        <img src="${firstImg}" class="product-img" alt="${p.name}">
-                        <div class="media-badge">📷 ${mediaCountBadge}</div>
+                    <div class="product-media-container">
+                        <img src="${mainImage}" class="product-img" alt="${p.name}">
+                        <div class="media-badge">📷 ${p.images ? p.images.length : 1} Photos</div>
                     </div>
                     <div class="product-details">
                         <div class="product-name">${p.name}</div>
@@ -657,47 +634,62 @@
                             <select id="color_${idx}">${colorOptions}</select>
                         </div>
 
+                        <div class="card-actions">
+                            <button class="like-btn" onclick="likeProduct('${p.id}')">
+                                ❤️ <span>${p.likes || 0}</span> Likes
+                            </button>
+                            <span style="font-size: 11px; color: var(--gold);">⭐ Verified Seller</span>
+                        </div>
+
                         <a href="#" onclick="orderOnWhatsApp('${p.name}', '${p.price}', ${idx}); return false;" class="whatsapp-btn">
                             Order on WhatsApp 🛒
                         </a>
+
+                        <div class="reviews-section">
+                            <div class="reviews-list">
+                                ${reviewsHtml || '<div class="review-item">No reviews yet. Be the first!</div>'}
+                            </div>
+                            <div class="review-form">
+                                <input type="text" id="rev_name_${p.id}" placeholder="Your Name">
+                                <input type="text" id="rev_text_${p.id}" placeholder="Write a review...">
+                                <button onclick="addReview('${p.id}')">Post</button>
+                            </div>
+                        </div>
                     </div>
                 `;
                 grid.appendChild(card);
             });
-
-            window.currentProductsCache = productsList;
         };
 
-        window.openGallery = function(idx) {
-            const p = window.currentProductsCache[idx];
-            const container = document.getElementById('galleryContainerContent');
-            
-            let mediaHtml = `<img src="${p.images[0]}" class="main-preview" id="mainPreviewMedia">`;
-            let thumbHtml = `<div class="thumbnail-strip">`;
-            
-            p.images.forEach((img, i) => {
-                thumbHtml += `<img src="${img}" class="${i===0?'active':''}" onclick="changePreview(this, '${img}')">`;
-            });
-
-            if(p.video) {
-                thumbHtml += `<video src="${p.video}" onclick="changePreviewVideo(this, '${p.video}')" style="background:#222;"></video>`;
+        window.likeProduct = function(id) {
+            let allProds = JSON.parse(localStorage.getItem('bms_direct_prods') || '[]');
+            let prod = allProds.find(p => p.id === id);
+            if(prod) {
+                prod.likes = (prod.likes || 0) + 1;
+                localStorage.setItem('bms_direct_prods', JSON.stringify(allProds));
+                loadProducts();
             }
-            thumbHtml += `</div>`;
-
-            container.innerHTML = mediaHtml + thumbHtml;
-            document.getElementById('galleryModal').style.display = 'flex';
         };
 
-        window.changePreview = function(el, src) {
-            document.getElementById('mainPreviewMedia').outerHTML = `<img src="${src}" class="main-preview" id="mainPreviewMedia">`;
-            document.querySelectorAll('.thumbnail-strip img, .thumbnail-strip video').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-        };
+        window.addReview = function(id) {
+            const nameInput = document.getElementById(`rev_name_${id}`);
+            const textInput = document.getElementById(`rev_text_${id}`);
+            const name = nameInput.value.trim();
+            const text = textInput.value.trim();
 
-        window.changePreviewVideo = function(el, src) {
-            document.getElementById('mainPreviewMedia').outerHTML = `<video src="${src}" class="main-preview" id="mainPreviewMedia" controls autoplay></video>`;
-            document.querySelectorAll('.thumbnail-strip img, .thumbnail-strip video').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
+            if(!name || !text) {
+                alert("Please enter both your name and review text!");
+                return;
+            }
+
+            let allProds = JSON.parse(localStorage.getItem('bms_direct_prods') || '[]');
+            let prod = allProds.find(p => p.id === id);
+            if(prod) {
+                if(!prod.reviews) prod.reviews = [];
+                prod.reviews.push({name, text});
+                localStorage.setItem('bms_direct_prods', JSON.stringify(allProds));
+                loadProducts();
+            }
         };
 
         window.orderOnWhatsApp = function(name, price, idx) {
@@ -709,7 +701,6 @@
             window.open(encodedUrl, '_blank');
         };
 
-        // Initial Load
         loadProducts();
     </script>
 </body>
