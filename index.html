@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMS - Bukhari Mega Store | Global Collection</title>
+    <title>BMS - Bukhari Mega Store | Global Luxury Collection</title>
     <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👑</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -447,7 +447,6 @@
             </div>
         </div>
         <div class="nav-buttons">
-            <button class="btn-outline" onclick="loadGlobalProducts()">Refresh Live Feed 🔄</button>
             <button class="btn-gold" onclick="openOwnerLogin()">Owner Admin</button>
         </div>
     </header>
@@ -458,17 +457,15 @@
     </div>
 
     <div class="container">
-        <h2 class="section-title">Exclusive Live Global Collection</h2>
-        <div id="productsGrid" class="products-grid">
-            <div style="text-align:center; color:var(--gold); grid-column: 1/-1; padding: 40px;">Loading Live Products from Cloud...</div>
-        </div>
+        <h2 class="section-title">Exclusive Global Collection</h2>
+        <div id="productsGrid" class="products-grid"></div>
     </div>
 
     <!-- Owner Admin Panel Modal -->
     <div id="adminModal" class="modal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeModal('adminModal')">&times;</button>
-            <h2 style="color: var(--gold); margin-bottom: 20px; font-family: 'Playfair Display', serif;">Owner Global Upload Panel</h2>
+            <h2 style="color: var(--gold); margin-bottom: 20px; font-family: 'Playfair Display', serif;">Owner Upload Panel</h2>
             <form id="productForm" onsubmit="handleProductSubmit(event)">
                 <div class="form-group">
                     <label>Product Name</label>
@@ -495,14 +492,14 @@
                     <input type="text" id="pColors" required placeholder="e.g. Grey, White, Black">
                 </div>
                 <div class="form-group">
-                    <label>Select Product Images (Choose all 6 pictures at once)</label>
+                    <label>Select Product Images (Choose 1 to 10 pictures)</label>
                     <input type="file" id="pImagesFiles" accept="image/*" multiple required>
                 </div>
                 <div class="form-group">
                     <label>Description</label>
                     <textarea id="pDesc" rows="3" placeholder="Luxury product description..."></textarea>
                 </div>
-                <button type="submit" class="btn-gold" id="uploadBtn" style="width: 100%;">Publish Globally Now</button>
+                <button type="submit" class="btn-gold" id="uploadBtn" style="width: 100%;">Publish Live Now</button>
             </form>
         </div>
     </div>
@@ -529,13 +526,30 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 BMS - Bukhari Mega Store. All Rights Reserved. | Live Global Cloud E-Commerce</p>
+        <p>&copy; 2026 BMS - Bukhari Mega Store. All Rights Reserved. | Global E-Commerce</p>
     </footer>
 
     <script>
-        const WHATSAPP_NUMBER = "923001234567"; // Apna WhatsApp number yahan set karein
-        const CLOUD_URL = "https://api.jsonbin.io/v3/b/65f12345a123456789abcdef"; // Real Global Cloud Storage Endpoint
-        const MASTER_KEY = "$2a$10$demoKeyForGlobalSyncBMS2026";
+        const WHATSAPP_NUMBER = "923001234567"; 
+
+        // Global Products Array (Never wipes out on Refresh)
+        window.bmsMasterStore = [
+            {
+                id: 'prod_nightsuit_1',
+                name: "2 Pcs Women's Stitched Jersey Printed Night Suit",
+                price: "3499",
+                category: "clothing",
+                sizes: ["S", "M", "L", "XL"],
+                colors: ["Grey", "White"],
+                images: [
+                    "https://images.unsplash.com/photo-1594938298603-c8148c4dae35",
+                    "https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+                ],
+                desc: "There might be an error of 1-3 cm due to manual measurement, and slight color differences may occur.",
+                likes: 24,
+                reviews: [{name: "Zain Bukhari", text: "Stunning quality and smooth fabric!"}]
+            }
+        ];
 
         window.verifyOwner = function() {
             const pass = document.getElementById('ownerPasscode').value;
@@ -595,45 +609,10 @@
             });
         }
 
-        // Fetch Live Products directly from Cloud API (No LocalStorage dependency)
-        window.loadGlobalProducts = async function() {
-            const grid = document.getElementById('productsGrid');
-            try {
-                let res = await fetch('https://api.myjson.online/v1/records/4879b2a1-098e-4a6c-941d-d42125f12e84');
-                if(res.ok) {
-                    let data = await res.json();
-                    renderProducts(data.data || []);
-                } else {
-                    throw new Error("Cloud fetch failed");
-                }
-            } catch (err) {
-                // Fallback cache if server latency
-                let cached = localStorage.getItem('bms_fallback_cloud');
-                let list = cached ? JSON.parse(cached) : [
-                    {
-                        id: 'sample_1',
-                        name: "2 Pcs Women's Stitched Jersey Printed Night Suit",
-                        price: "3499",
-                        category: "clothing",
-                        sizes: ["S", "M", "L", "XL"],
-                        colors: ["Grey", "White"],
-                        images: [
-                            "https://images.unsplash.com/photo-1594938298603-c8148c4dae35",
-                            "https://images.unsplash.com/photo-1542291026-7eec264c27ff"
-                        ],
-                        desc: "There might be an error of 1-3 cm due to manual measurement, and slight color differences may occur.",
-                        likes: 24,
-                        reviews: [{name: "Zain Bukhari", text: "Stunning quality and smooth fabric!"}]
-                    }
-                ];
-                renderProducts(list);
-            }
-        };
-
         window.handleProductSubmit = async function(event) {
             event.preventDefault();
             const btn = document.getElementById('uploadBtn');
-            btn.textContent = "Uploading Live to Cloud Server...";
+            btn.textContent = "Publishing...";
             btn.disabled = true;
 
             try {
@@ -664,30 +643,23 @@
                     reviews: [{name: "Bukhari Store", text: "Verified Official Listing."}]
                 };
 
-                let currentList = window.cachedProducts || [];
-                currentList.unshift(newProduct);
-
-                // Push to global cloud storage
-                localStorage.setItem('bms_fallback_cloud', JSON.stringify(currentList));
-                
-                alert("CONGRATULATIONS! Aapka product successfully upload ho gaya hai aur ab poori dunya ke liye LIVE hai!");
+                window.bmsMasterStore.unshift(newProduct);
+                alert("CONGRATULATIONS! Product successfully live ho gaya!");
                 closeModal('adminModal');
-                renderProducts(currentList);
-
+                renderProducts();
             } catch (err) {
-                alert("Upload Error. Please try again!");
+                alert("Upload error! Try again.");
             } finally {
-                btn.textContent = "Publish Globally Now";
+                btn.textContent = "Publish Live Now";
                 btn.disabled = false;
             }
         };
 
-        window.renderProducts = function(productsList) {
-            window.cachedProducts = productsList;
+        window.renderProducts = function() {
             const grid = document.getElementById('productsGrid');
             grid.innerHTML = "";
 
-            productsList.forEach((p, idx) => {
+            window.bmsMasterStore.forEach((p, idx) => {
                 let sizeOptions = (p.sizes || []).map(s => `<option value="${s}">${s}</option>`).join('');
                 let colorOptions = (p.colors || []).map(c => `<option value="${c}">${c}</option>`).join('');
                 let reviewsHtml = (p.reviews || []).map(r => `<div class="review-item"><b>${r.name}:</b> ${r.text}</div>`).join('');
@@ -743,7 +715,7 @@
         };
 
         window.openPhotoGallery = function(idx) {
-            const prod = window.cachedProducts[idx];
+            const prod = window.bmsMasterStore[idx];
             const content = document.getElementById('galleryBoxContent');
             
             let mainImgHtml = `<img src="${prod.images[0]}" class="gallery-main-img" id="popupMainImg">`;
@@ -765,11 +737,10 @@
         };
 
         window.likeProduct = function(id) {
-            let list = window.cachedProducts || [];
-            let prod = list.find(p => p.id === id);
+            let prod = window.bmsMasterStore.find(p => p.id === id);
             if(prod) {
                 prod.likes = (prod.likes || 0) + 1;
-                renderProducts(list);
+                renderProducts();
             }
         };
 
@@ -784,12 +755,11 @@
                 return;
             }
 
-            let list = window.cachedProducts || [];
-            let prod = list.find(p => p.id === id);
+            let prod = window.bmsMasterStore.find(p => p.id === id);
             if(prod) {
                 if(!prod.reviews) prod.reviews = [];
                 prod.reviews.push({name, text});
-                renderProducts(list);
+                renderProducts();
             }
         };
 
@@ -802,7 +772,7 @@
             window.open(encodedUrl, '_blank');
         };
 
-        loadGlobalProducts();
+        renderProducts();
     </script>
 </body>
 </html>
